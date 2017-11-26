@@ -1,0 +1,57 @@
+\documentclass[]{article}
+
+%opening
+\title{Carbon elastics for commissioning}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Kinematics equations}
+\begin{itemize}
+	\item Carbon target mass, $M_C$ = 12*931.5 MeV
+	\item Beam energy, $E_B$
+	\item Scattered electron energy and angle, $E_e$ and $\theta_E$
+	\item Scattered carbon energy and angle, $E_C$ and $\theta_C$
+	\item Carbon excitation energy, $E_x$	
+\end{itemize}
+
+Conservation of energy:
+\begin{equation}
+E_B + M_C = E_e + E_C + E_x
+\end{equation}
+Conservation of momentum (assume $E_e = p_E$):
+\begin{eqnarray}
+E_e*\sin(\theta_e) &=& p_C*\sin(\theta_C) \\
+E_B &=& E_e*\cos(\theta_e) + p_C*\cos(\theta_C) 
+\end{eqnarray}
+Solving for momentum equations for $E_C$:
+\begin{eqnarray}
+E^2_e*\sin^2(\theta_e) &=& p^2_C*\sin^2(\theta_C) \\
+(E_B -E_e*\cos(\theta_e))^2 &=& p^2_C*\cos^2(\theta_C) \\
+(E_B -E_e*\cos(\theta_e))^2 + E^2_e*\sin^2(\theta_e)  &=& p^2_C = E^2_C - M^2_C \\
+ - 2E_BE_e\cos(\theta_e) +E^2_e&=& E^2_C - M^2_C- E^2_B
+\end{eqnarray}
+From energy equation:
+\begin{equation}
+E^2_C - M^2_C -E^2_B = +2E_BM_C + (E_e+E_x)^2 - 2(E_B+M_C)(E_e+E_x)
+\end{equation}
+Combining the two:
+\begin{equation}
+2E_BM_C +2E_eE_x+ E^2_x- 2(E_B+M_C)(E_e+E_x)= -2E_BE_e\cos(\theta_e) \\ 
+\end{equation}
+Solving for $E_e$ :
+\begin{equation}
+E_e=\frac{E_BM_C + E^2_x/2-E_x(E_B+M_C)}{[E_B(1-\cos(\theta_e))+M_c-E_x]}
+\end{equation}
+
+Solve quadratic equation for the excitation energy:
+\begin{eqnarray}
+E_x &=& \frac{1}{2A}*\left[-B \pm \sqrt{B^2 - 4*A*C})\right]\\
+A &=& \frac{1}{2} \\
+B &=& E_e -M_C - E_B  \\
+c &=& E_eE_B(\cos(\theta_e)-1)+M_C(E_B-E_e)
+\end{eqnarray}
+
+\end{document}
