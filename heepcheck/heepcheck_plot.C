@@ -24,9 +24,19 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
   Float_t tar_dens = 0.0708;
   Float_t M = 0.000511; //electron mass
   Float_t Mp = 0.93827;  //proton mass
+
+  Float_t hthicks = 0.016*2.54;   // Scattering chamber window 16 mil Al
+  Float_t hthicka = 15.0;         // 15 cm of air
+  Float_t hthickw1 = 0.017*2.54;   // HMS entrance window 17 mil Kevlar
+  Float_t hthickw2 = 0.005*2.54;  //  HMS entrance window 5 mil mylar
   Float_t hthick3 = 0.020*2.54;   // thickness of HMS exit window, 20 mil Ti 
   Float_t hthick4 = 0.002*2.54;   // thickness of mylar windows on HMS DC, 1 + 1 mil
   Float_t hthick5 = 0.080*2.54; //40 + 40 mil entrance+ exit window of HMS Cerenkov tank
+  
+  
+  Float_t sthicks = 0.008*2.54;   // Scattering chamber window 16 mil Al
+  Float_t sthicka = 15.0;         // 15 cm of air
+  Float_t sthickw1 = 0.020*2.54;   // SHMS entrance window 20 mil Al
   Float_t sthick3 = 0.020*2.54;   // thickness of SHMS exit window, 20 mil Al
   Float_t sthick4 = 0.002*2.54;   // thickess of mylar window on SHMS DC, 1+ 1 mil
   Float_t sthick5 = 0.004*2.54;  // 2+2 mil Al on SHMS Cerenkov tank 
@@ -49,13 +59,13 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
   //cout << En << " " << theta_ee << " " << p_Pcen << " " << endl;
 
   // define all histograms
-  TH1D *h33 = new TH1D("h33","Histogram of W", 150, 0.8, 1.1);
+  TH1D *h33 = new TH1D("h33","W", 150, 0.8, 1.1);
  
-  TH1D *h44= new TH1D("h44","Histogram of Em", 100, -0.05, .05);
+  TH1D *h44= new TH1D("h44","Em", 100, -0.05, .05);
 
-  TH1D *h55= new TH1D("h55","Histogram of Pm_par", 100, -0.1, 0.1);
+  TH1D *h55= new TH1D("h55","Pm_par", 100, -0.1, 0.1);
 
-  TH1D *h66= new TH1D("h66","Histogram of Pm_per",100, -0.05, 0.1);  
+  TH1D *h66= new TH1D("h66","Pm_per",100, -0.05, 0.1);  
   
   TCanvas* c1 = new TCanvas("c1", "My histo8", 1000,1000);
   c1->Divide(2,2);
@@ -156,17 +166,23 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
    Float_t loss_02 = loss_electron(13.0, 27., 2.7, 0.005*2.54*2.7);//energy loss of beam in Al endcap
 
    Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, hthick1) + loss_electron(13.0, 27.0, 2.7, hthick2); //energy loss of scattered electron in target
-   Float_t loss_12 = loss_electron(22., 47.9, 4.54, hthick3); // energy loss of scattered electron in HMS spectrometer exit
-   Float_t loss_13 = loss_electron(0.52, 1.0, 1.39, hthick4); // energy loss of scattered electron in HMS DC
-   Float_t loss_14 = loss_electron(13., 27., 2.7, hthick5); // energy loss of scattered electron in HMS Cer
+   Float_t loss_12 = loss_electron(13., 27., 2.7, hthicks); // energy loss of scattered electon in scattering chamber exit window;, Al
+   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, hthicka); // energy loss of scattered electron in air between scatt chamber and HMS entrance
+   Float_t loss_14 = loss_electron(2.67, 4.67, 0.74, hthickw1) + loss_electron(0.52, 1.0, 1.39, hthickw2); //loss in HMS entrance window kevlar+mylar
+   Float_t loss_15 = loss_electron(22., 47.9, 4.54, hthick3); // energy loss of scattered electron in HMS spectrometer exit Titanium
+   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, hthick4); // energy loss of scattered electron in HMS DC mylar
+   Float_t loss_17 = loss_electron(13., 27., 2.7, hthick5); // energy loss of scattered electron in HMS Cer Al
 
 
    Float_t sbeta = p_Pcen/sqrt(p_Pcen*p_Pcen + Mp*Mp);  //proton beta for central momentum 
 
-   Float_t loss_21 = loss_proton(1.0, 1.0, sbeta, sthick1) + loss_proton(13.0, 26.98, sbeta, sthick2); // energy loss of scattered proton in target
-   Float_t loss_22 = loss_proton(13.0, 27.0, sbeta, sthick3); // energy loss of scattered proton in SHMS exit
-   Float_t loss_23 = loss_proton(0.52, 1.0, sbeta, sthick4);  // energy loss of scattered proton in SHMS DC
-   Float_t loss_24 = loss_proton(13., 27.0, sbeta, sthick5);  // energy loss of scattered proton in SHMS Cer
+   Float_t loss_21 = loss_proton(1.0, 1.0, 0.0708, sbeta, sthick1) + loss_proton(13.0, 26.98, 2.7, sbeta, sthick2); // energy loss of scattered proton in target
+   Float_t loss_22 = loss_proton(13.0, 27.0, 2.7, sbeta, sthicks); //energy loss of scattered proton in scattering chamber exit window
+   Float_t loss_23 = loss_proton(7.32, 14.68, 0.00121, sbeta, sthicka); //energy loss of scattered proton in air between scatt. chamber and SHMS entrance
+   Float_t loss_24 = loss_proton(13.0, 27.0, 2.7, sbeta, sthickw1); //energy loss of scattered proton in entance window of SHMS
+   Float_t loss_25 = loss_proton(13.0, 27.0, 2.7, sbeta, sthick3); // energy loss of scattered proton in SHMS exit
+   Float_t loss_26 = loss_proton(0.52, 1.0, 1.39, sbeta, sthick4);  // energy loss of scattered proton in SHMS DC
+   Float_t loss_27 = loss_proton(13., 27.0, 2.7, sbeta, sthick5);  // energy loss of scattered proton in SHMS Cer
 
   }
  
@@ -227,23 +243,29 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
    Float_t loss_02 = loss_electron(13.0, 27, 2.7, 0.005*2.54*2.7);//energy loss of beam in Al endcap
 
    Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, sthick1) + loss_electron(13.0, 27.0, 2.7, sthick2); //energy loss of scattered electron in target
-   Float_t loss_12 = loss_electron(13., 27., 2.7, sthick3); // energy loss of scattered electron in SHMS spectrometer exit
-   Float_t loss_13 = loss_electron(0.52, 1.0, 1.39, sthick4); // energy loss of scattered electron in SHMS DC
-   Float_t loss_14 = loss_electron(13., 27., 2.7, sthick5); // energy loss of scattered electron in SHMS Cer
+   Float_t loss_12 = loss_electron(13.0, 27.0, 2.7, sthicks); // energy loss in scatt. chamber exit foil
+   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, sthicka); //energy loss in air between scatt. chamber and SHMS entrance
+   Float_t loss_14 = loss_electron(13.0, 27.0, 2.7, sthickw1); //energy loss in entrance window of SHMS 
+   Float_t loss_15 = loss_electron(13., 27., 2.7, sthick3); // energy loss of scattered electron in SHMS spectrometer exit
+   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, sthick4); // energy loss of scattered electron in SHMS DC
+   Float_t loss_17 = loss_electron(13., 27., 2.7, sthick5); // energy loss of scattered electron in SHMS Cer
 
    Float_t hbeta = p_Pcen/sqrt(p_Pcen*p_Pcen + Mp*Mp);  //proton beta for central momentum 
 
-   Float_t loss_21 = loss_proton(1.0, 1.0, hbeta, hthick1) + loss_proton(13.0, 26.98, hbeta, hthick2); // energy loss of scattered proton in target
-   Float_t loss_22 = loss_proton(22.0, 47.9, hbeta, hthick3); // energy loss of scattered proton in HMS exit
-   Float_t loss_23 = loss_proton(0.52, 1.0, hbeta, hthick4);  // energy loss of scattered proton in HMS DC
-   Float_t loss_24 = loss_proton(13., 27., hbeta, hthick5);  // energy loss of scattered proton in HMS Cer
+   Float_t loss_21 = loss_proton(1.0, 1.0, 0.0708, hbeta, hthick1) + loss_proton(13.0, 26.98, 2.7, hbeta, hthick2); // energy loss of scattered proton in target
+   Float_t loss_22 = loss_proton(13.0, 27.0, 2.7, hbeta, hthicks); // loss due to scatt. chamber exit window
+   Float_t loss_23 = loss_proton(7.32, 14.68, 0.00121, hbeta, hthicka); // loss due to air between scatt. chamber and HMS entrance
+   Float_t loss_24 = loss_proton(2.67, 4.67, 0.74, hbeta, hthickw1) + loss_proton(0.52, 1.0, 1.39, hbeta, hthickw2); //loss in the HMS entrace window 
+   Float_t loss_25 = loss_proton(22.0, 47.9, 4.54, hbeta, hthick3); // energy loss of scattered proton in HMS exit
+   Float_t loss_26 = loss_proton(0.52, 1.0, 1.39, hbeta, hthick4);  // energy loss of scattered proton in HMS DC
+   Float_t loss_27 = loss_proton(13., 27., 2.7, hbeta, hthick5);  // energy loss of scattered proton in HMS Cer
   }
 
   //*********************** Calculate the total energy loss
 
    Double_t totLoss_beam = loss_01+loss_02;  // total eloss of incoming beam
-   Double_t totLoss_e = loss_11+loss_12+loss_13+loss_14;  // total eloss of scattered electron
-   Double_t totLoss_p = loss_21+loss_22+loss_23+loss_24;  // total eloss of scattered proton
+   Double_t totLoss_e = loss_11+loss_12+loss_13+loss_14+loss_15+loss_16+loss_17;  // total eloss of scattered electron
+   Double_t totLoss_p = loss_21+loss_22+loss_23+loss_24+loss_25+loss_26+loss_27;  // total eloss of scattered proton
 
    //*********************************************
 
@@ -399,9 +421,37 @@ Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t t_thick)
   return loss_e;
 }
 
-Float_t loss_proton (Float_t t_z, Float_t t_a, Float_t betap, Float_t thick){         // loss for proton.
+Float_t loss_proton (Float_t t_z, Float_t t_a, Float_t t_dens, Float_t betap, Float_t thick){         // loss for proton.
+
+  Float_t me_gev=0.000510999;
+  Float_t pmass=0.93827;
+  Float_t gammap=1./sqrt(1.-betap*betap);
+  Float_t tmax=abs(2.*me_gev*betap*betap*gammap*gammap/(1+2.*abs(gammap)*me_gev/pmass+(me_gev/pmass)*(me_gev/pmass))); //max energy transfer to orbitl electrons
+  Float_t hnup=28.816e-09*sqrt(abs(t_dens*t_z/t_a));  //plasma frequency (h*nu_p)
+  Float_t logbg=log(betap*gammap)/log(10.);
+  Float_t icon_ev = 1.0 ;
+  if (t_z < 1.5) {
+    icon_ev = 21.8;
+  } else if (t_z < 13) {
+    icon_ev = 12.*t_z+7;
+  } else {
+    icon_ev = t_z*(9.76+58.8*(pow(t_z, -1.19)));
+  }
+  Float_t icon_gev = icon_ev*1.0e-09;
+  Float_t C0 = -2*(log(icon_gev)-log(hnup)+.5);
+  Float_t denscorr = 0.; 
+
+  if (logbg < 0.) { 
+    denscorr = 0.;
+  } else if (logbg < 3.) {
+    denscorr = C0+2.*log(10.)*logbg+abs(C0/27.)*(3.-logbg)*(3.-logbg)*(3.-logbg) ;
+  } else if (logbg < 4.7) {
+    denscorr = C0+2*log(10.)*logbg ;
+  } else {
+    denscorr=C0+2.*log(10.)*4.7 ;
+  }  
   
-  Float_t loss_p = log(2.*510999.*betap*betap/21.8/(1.-betap*betap)) - betap*betap;
+  Float_t loss_p = .5*(log(2.*me_gev)+2*log(betap)+2*log(gammap)+log(tmax)-2*log(icon_gev)) - betap*betap -denscorr/2. ; 
   Float_t loss_p = 2.*0.1536e-03*t_z/t_a*thick/betap/betap * loss_p;
   return loss_p;
 }
