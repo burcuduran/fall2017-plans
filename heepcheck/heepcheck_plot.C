@@ -7,7 +7,7 @@ using namespace std;
 
 
 Float_t loss_proton(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t betap, Float_t thick);
-Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t t_thick);
+Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t frac_temp, Float_t t_thick);
 
 
 int heepcheck (TString target,TString sign,TString hpart)  // arguments are : target cell type (target1/target2/target3); sign of eloss (add/subs/no); type of particle in HMS (e/p)
@@ -25,21 +25,21 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
   Float_t M = 0.000511; //electron mass
   Float_t Mp = 0.93827;  //proton mass
 
-  Float_t hthicks = 0.016*2.54;   // Scattering chamber window 16 mil Al
-  Float_t hthicka = 15.0;         // 15 cm of air
-  Float_t hthickw1 = 0.017*2.54;   // HMS entrance window 17 mil Kevlar
-  Float_t hthickw2 = 0.005*2.54;  //  HMS entrance window 5 mil mylar
-  Float_t hthick3 = 0.020*2.54;   // thickness of HMS exit window, 20 mil Ti 
-  Float_t hthick4 = 0.002*2.54;   // thickness of mylar windows on HMS DC, 1 + 1 mil
-  Float_t hthick5 = 0.080*2.54; //40 + 40 mil entrance+ exit window of HMS Cerenkov tank
+  Float_t hthicks = 0.016*2.54*2.7;   // Scattering chamber window 16 mil Al
+  Float_t hthicka = 15.0*0.00121;         // 15 cm of air
+  Float_t hthickw1 = 0.017*2.54*0.74;   // HMS entrance window 17 mil Kevlar
+  Float_t hthickw2 = 0.005*2.54*1.39;  //  HMS entrance window 5 mil mylar
+  Float_t hthick3 = 0.020*2.54*4.54;   // thickness of HMS exit window, 20 mil Ti 
+  Float_t hthick4 = 0.002*2.54*1.39;   // thickness of mylar windows on HMS DC, 1 + 1 mil
+  Float_t hthick5 = 0.080*2.54*2.7; //40 + 40 mil entrance+ exit window of HMS Cerenkov tank
   
   
-  Float_t sthicks = 0.008*2.54;   // Scattering chamber window 16 mil Al
-  Float_t sthicka = 15.0;         // 15 cm of air
-  Float_t sthickw1 = 0.020*2.54;   // SHMS entrance window 20 mil Al
-  Float_t sthick3 = 0.020*2.54;   // thickness of SHMS exit window, 20 mil Al
-  Float_t sthick4 = 0.002*2.54;   // thickess of mylar window on SHMS DC, 1+ 1 mil
-  Float_t sthick5 = 0.004*2.54;  // 2+2 mil Al on SHMS Cerenkov tank 
+  Float_t sthicks = 0.008*2.54*2.7;   // Scattering chamber window 16 mil Al
+  Float_t sthicka = 15.0*0.00121;         // 15 cm of air
+  Float_t sthickw1 = 0.020*2.54*2.7;   // SHMS entrance window 20 mil Al
+  Float_t sthick3 = 0.020*2.54*2.7;   // thickness of SHMS exit window, 20 mil Al
+  Float_t sthick4 = 0.002*2.54*1.39;   // thickess of mylar window on SHMS DC, 1+ 1 mil
+  Float_t sthick5 = 0.004*2.54*2.7;  // 2+2 mil Al on SHMS Cerenkov tank 
 
   //***********read in kinematics and offsets *****************
   //*****Beam energy, e-angle, e-momentum, p-angle, p-momentum, beam_offset, e-angle offset, e-momentum affset, p-angle offset, p-momentum offset
@@ -161,17 +161,18 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
      Float_t  sthick2 = 0.005*2.54*2.70/cos(theta_pp);
    }
 
-  
-   Float_t loss_01 = loss_electron(1.0, 1.0, 0.0708, tar_len/2.*0.0708);//energy loss of beam in hyrdogen target
-   Float_t loss_02 = loss_electron(13.0, 27., 2.7, 0.005*2.54*2.7);//energy loss of beam in Al endcap
+   Float_t frac_temp = M/sqrt(En*En - M*M);  
+   Float_t loss_01 = loss_electron(1.0, 1.0, 0.0708, frac_temp, tar_len/2.*0.0708);//energy loss of beam in hyrdogen target
+   Float_t loss_02 = loss_electron(13.0, 27., 2.7, frac_temp, 0.005*2.54*2.7);//energy loss of beam in Al endcap
 
-   Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, hthick1) + loss_electron(13.0, 27.0, 2.7, hthick2); //energy loss of scattered electron in target
-   Float_t loss_12 = loss_electron(13., 27., 2.7, hthicks); // energy loss of scattered electon in scattering chamber exit window;, Al
-   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, hthicka); // energy loss of scattered electron in air between scatt chamber and HMS entrance
-   Float_t loss_14 = loss_electron(2.67, 4.67, 0.74, hthickw1) + loss_electron(0.52, 1.0, 1.39, hthickw2); //loss in HMS entrance window kevlar+mylar
-   Float_t loss_15 = loss_electron(22., 47.9, 4.54, hthick3); // energy loss of scattered electron in HMS spectrometer exit Titanium
-   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, hthick4); // energy loss of scattered electron in HMS DC mylar
-   Float_t loss_17 = loss_electron(13., 27., 2.7, hthick5); // energy loss of scattered electron in HMS Cer Al
+   frac_temp = M/p_Ecen;
+   Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, frac_temp, hthick1) + loss_electron(13.0, 27.0, 2.7, frac_temp, hthick2); //energy loss of scattered electron in target
+   Float_t loss_12 = loss_electron(13., 27., 2.7, frac_temp, hthicks); // energy loss of scattered electon in scattering chamber exit window;, Al
+   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, frac_temp, hthicka); // energy loss of scattered electron in air between scatt chamber and HMS entrance
+   Float_t loss_14 = loss_electron(2.67, 4.67, 0.74, frac_temp, hthickw1) + loss_electron(0.52, 1.0, 1.39, frac_temp, hthickw2); //loss in HMS entrance window kevlar+mylar
+   Float_t loss_15 = loss_electron(22., 47.9, 4.54, frac_temp, hthick3); // energy loss of scattered electron in HMS spectrometer exit Titanium
+   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, frac_temp, hthick4); // energy loss of scattered electron in HMS DC mylar
+   Float_t loss_17 = loss_electron(13., 27., 2.7, frac_temp, hthick5); // energy loss of scattered electron in HMS Cer Al
 
 
    Float_t sbeta = p_Pcen/sqrt(p_Pcen*p_Pcen + Mp*Mp);  //proton beta for central momentum 
@@ -238,17 +239,18 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
      Float_t  sthick2 = 0.005*2.54*2.70/cos(theta_ee);
    }
 
-  
-   Float_t loss_01 = loss_electron(1.0, 1.0, 0.0708, tar_len/2.*0.0708);//energy loss of beam in hyrdogen target
-   Float_t loss_02 = loss_electron(13.0, 27, 2.7, 0.005*2.54*2.7);//energy loss of beam in Al endcap
+   Float_t frac_temp = M/sqrt(En*En - M*M);    
+   Float_t loss_01 = loss_electron(1.0, 1.0, 0.0708, frac_temp, tar_len/2.*0.0708);//energy loss of beam in hyrdogen target
+   Float_t loss_02 = loss_electron(13.0, 27, 2.7, frac_temp, 0.005*2.54*2.7);//energy loss of beam in Al endcap
 
-   Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, sthick1) + loss_electron(13.0, 27.0, 2.7, sthick2); //energy loss of scattered electron in target
-   Float_t loss_12 = loss_electron(13.0, 27.0, 2.7, sthicks); // energy loss in scatt. chamber exit foil
-   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, sthicka); //energy loss in air between scatt. chamber and SHMS entrance
-   Float_t loss_14 = loss_electron(13.0, 27.0, 2.7, sthickw1); //energy loss in entrance window of SHMS 
-   Float_t loss_15 = loss_electron(13., 27., 2.7, sthick3); // energy loss of scattered electron in SHMS spectrometer exit
-   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, sthick4); // energy loss of scattered electron in SHMS DC
-   Float_t loss_17 = loss_electron(13., 27., 2.7, sthick5); // energy loss of scattered electron in SHMS Cer
+   frac_temp = M/p_Ecen;
+   Float_t loss_11 = loss_electron(1.0, 1.0, 0.0708, frac_temp, sthick1) + loss_electron(13.0, 27.0, 2.7, frac_temp, sthick2); //energy loss of scattered electron in target
+   Float_t loss_12 = loss_electron(13.0, 27.0, 2.7, frac_temp, sthicks); // energy loss in scatt. chamber exit foil
+   Float_t loss_13 = loss_electron(7.32, 14.68, 0.00121, frac_temp, sthicka); //energy loss in air between scatt. chamber and SHMS entrance
+   Float_t loss_14 = loss_electron(13.0, 27.0, 2.7, frac_temp, sthickw1); //energy loss in entrance window of SHMS 
+   Float_t loss_15 = loss_electron(13., 27., 2.7, frac_temp, sthick3); // energy loss of scattered electron in SHMS spectrometer exit
+   Float_t loss_16 = loss_electron(0.52, 1.0, 1.39, frac_temp, sthick4); // energy loss of scattered electron in SHMS DC
+   Float_t loss_17 = loss_electron(13., 27., 2.7, frac_temp, sthick5); // energy loss of scattered electron in SHMS Cer
 
    Float_t hbeta = p_Pcen/sqrt(p_Pcen*p_Pcen + Mp*Mp);  //proton beta for central momentum 
 
@@ -414,9 +416,27 @@ int heepcheck (TString target,TString sign,TString hpart)  // arguments are : ta
 
 }
 
-Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t t_thick){  // loss for electrons
+Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t frac_temp, Float_t t_thick){  // loss for electrons
+  Float_t me_gev=0.000510999;
+  Float_t velocity= log((1./sqrt(1.+frac_temp*frac_temp))*(sqrt(1.+frac_temp*frac_temp)/frac_temp))/log(10.);
+  Float_t logbg=velocity;
+  Float_t betagamma=exp(velocity*log(10.));
+  Float_t betae=betagamma/sqrt(1.+betagamma*betagamma);
+  Float_t gammae=sqrt(1.+betae*betae);
+  Float_t tau=gammae-1.;
+  Float_t pmass=me_gev;
+  Float_t hnup=28.816e-09*sqrt(abs(t_dens*t_z/t_a));  //plasma frequency (h*nu_p)
+  Float_t icon_ev = 1.0 ;
+  if (t_z < 1.5) {
+    icon_ev = 21.8;
+  } else if (t_z < 13) {
+    icon_ev = 12.*t_z+7;
+  } else {
+    icon_ev = t_z*(9.76+58.8*(pow(t_z, -1.19)));
+  }
+  Float_t icon_gev = icon_ev*1.0e-09;
  
-  Float_t loss_e = (0.0001536*t_z)/(t_a*t_thick*(19.26 +log(t_thick/t_dens)));
+  Float_t loss_e = 0.0001536*t_z/t_a*t_thick/betae*betae*(2.*log(tau)+log((tau+2.)/2.)-2.*(log(icon_gev)-log(me_gev))+1.-betae*betae+(tau*tau/8.-(2.*tau+1)*log(2.))/(tau+1.)*(tau+1.)-(-(2.*(log(icon_gev)-log(hnup))+1.)+2.*log(betagamma)));
   //cout << loss<<endl;
   return loss_e;
 }
