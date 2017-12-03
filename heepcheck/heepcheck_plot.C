@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-Float_t loss_proton(Float_t t_z, Float_t t_a, Float_t betap, Float_t thick);
+Float_t loss_proton(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t betap, Float_t thick);
 Float_t loss_electron(Float_t t_z, Float_t t_a, Float_t t_dens, Float_t t_thick);
 
 
