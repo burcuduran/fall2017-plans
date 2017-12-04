@@ -1,0 +1,29 @@
+SHMS forward
+xfp (mm) = -1.38*xtar (mm) - 0.004*xptar (mr) +16.5*delta
+xpfp (mr) = -.602*xtar (mm) - .72*xptar (mr) - 0.3*delta 
+yfp (mm) = -1.6*ytar (mr) - 0.003*yptar (mr) - 1.5*delta 
+ypfp (mr) = -2.68*ytar (mm) - 0.61*yptar (mr) +0.0074*delta 
+
+
+SHMS  reconstruction 1st order optics
+
+xptar (mr) = 0.26 xfp ( in mm) - 1.38 xpfp ( in mr)
+delta   = 0.06 xfp  (in mm)  - 0.0012 xpfp ( in mr)
+ytar  (mm) = -.61 yfp (in mm) - 0.04ypfp (in mr)
+yptar  (mr)= 0.27 yfp (in mm) - 1.6 ypfp (in mr)
+
+
+HMS
+
+
+HMS forward
+xfp (mm) = -3.41*xtar (mm) - 0.02*xptar (mr) +37.0*delta
+xpfp (mr) = -.04*xtar (mm) - .29*xptar (mr) - 0.4*delta 
+yfp (mm) = -2.2*ytar (mr) - 0.02*yptar (mr) 
+ypfp (mr) = -2.62*ytar (mm) - 0.42*yptar (mr) 
+
+HMS  recon 1st order optics
+xptar (mr) = 0.34 xfp ( in mm) - 3.15 xpfp ( in mr)
+delta   = 0.026 xfp  (in mm)  - 0.009 xpfp ( in mr)
+ytar  (mm) = -.38 yfp (in mm) - 0.086ypfp (in mr)
+yptar  (mr)= 0.26 yfp (in mm) - 2.1 ypfp (in mr)
