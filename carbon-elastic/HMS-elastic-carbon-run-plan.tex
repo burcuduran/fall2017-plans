@@ -1,0 +1,64 @@
+\documentclass[]{article}
+
+%opening
+\title{Carbon elastics for HMS commissioning at 1 pass}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+The first excited state of carbon elastics will be used to test the HMS optics.
+Important to following the HMS cycling procedure.
+The running conditions:
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}[]{|c|c|} \hline\hline
+			beam energy: & 2218 MeV\\ \hline
+			HMS momentum & 2201.54 MeV \\ \hline
+			HMS angle & 13.5 deg \\ \hline
+			HMS collimator & Sieve \\ \hline
+			beam current: & 1 μA\\ \hline
+			fast raster: & off\\ \hline
+			target: & 0.5\% carbon\\ \hline
+		\end{tabular}
+		\caption{Kinematics}
+	\end{center}
+\end{table}
+
+\section{Surveys}
+
+The surveys for the HMS are given in the Table.  Pointing is given in the spectrometer 
+coordinate system with +X downwards and +Y towards smaller angles.
+	\begin{table}[h]
+		\begin{center}
+			\begin{tabular}[]{|c|c||c|c|} \hline\hline
+				Survey & Angle  & Horizontal point (Y$_{spec}$) & Vertical point (X$_{spec}$)\\ \hline
+				C1792R & 40.534 & +3.45& +0.91\\ \hline
+				C1807R & 40.013 & +3.29 & +0.94 \\ \hline
+				C1809R & 50.00  & +2.92 & +1.07 \\ \hline
+			\end{tabular}
+			\caption{Survey are the HMS}
+		\end{center}
+	\end{table}
+	
+	\section{First order optics}
+	HMS first order forward optics:
+\begin{eqnarray}
+	xfp (mm) &=& -3.41*xtar (mm) - 0.02*xptar (mr) +37.0*delta \\
+	xpfp (mr) &=& -.04*xtar (mm) - .29*xptar (mr) - 0.4*delta \\
+	yfp (mm) &=& -2.2*ytar (mr) - 0.02*yptar (mr)  \\
+	ypfp (mr) &=& -2.62*ytar (mm) - 0.42*yptar (mr) 
+\end{eqnarray}
+	
+	HMS first order reconstruction optics.
+\begin{eqnarray}
+	xptar (mr) = 0.34 xfp ( mm) - 3.15 xpfp (mr) \\
+	delta   = 0.026 xfp  (mm)  - 0.009 xpfp (mr) \\
+	ytar  (mm) = -.38 yfp (mm) - 0.086ypfp (mr) \\
+	yptar  (mr)= 0.26 yfp (mm) - 2.1 ypfp (mr) 
+\end{eqnarray}
+
+\end{document}
