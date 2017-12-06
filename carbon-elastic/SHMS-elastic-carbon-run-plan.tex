@@ -1,0 +1,124 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+
+%opening
+\title{Carbon elastics for SHMS commissioning at 1 pass}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+The first excited state of carbon elastics will be used to test the HMS optics.
+Important to following the SHMS cycling procedure.
+The running conditions are given in table~\ref{tab:kin}.
+Rates are listed is the table~\ref{tab:rates} assuming a 1uA beam current.
+The inelastic events are plotted for various kinematic quantities in Fig.~\ref{fig:kin}
+and for different combinations of focal plane quantities in Fig.~\ref{fig:inelastic}.
+The elastic 4.4~MeV events are plotted for different combinations
+ of focal plane quantities in Fig.~\ref{fig:elastic44}. The elastic events are in a narrow part of the 
+ of xfp and Fig.~\ref{fig:xfp} shows a comparison of the inelastic and elastic events rates.
+ The elastic events dominate.
+
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}[]{|c|c|} \hline\hline
+			beam energy: & 2218 MeV\\ \hline
+			SHMS momentum & -2201.54 MeV \\ \hline
+			SHMS angle & 13.5 deg \\ \hline
+			SHMS collimator & Centered Sieve \\ \hline
+			beam current: & 3 $\mu$A\\ \hline
+			fast raster: & off\\ \hline
+			target: & 0.5\% carbon\\ \hline
+		\end{tabular}
+		\caption{Kinematics}
+		\label{tab:kin}
+	\end{center}
+\end{table}
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}[]{|c|c|} \hline\hline
+			Inelastic & 340 Hz\\ \hline
+			4.4 elastic state &  490 Hz\\ \hline
+			ground state & 1 Hz \\ \hline
+		\end{tabular}
+		\caption{Rates assuming 1uA beam current}
+\label{tab:rates}
+	\end{center}
+\end{table}
+
+\begin{figure}	
+	\begin{center}
+		\includegraphics[width=0.98\columnwidth]{shms_pointtarg_13p5deg_2gev_wc_mscat_vac_sieve_car44_kin.pdf}
+	\end{center}
+	\caption{Plots of Inelastic events versus kinematic quantities. Y-axis is rate for 20uA. }
+	\label{fig:kin}
+\end{figure}
+
+
+\begin{figure}	
+\begin{center}
+	\includegraphics[angle=90]{shms_pointtarg_13p5deg_2gev_wc_mscat_vac_sieve_car44_inelastic.pdf}
+\end{center}
+\caption{Inelastic events in focal plane for different combinations of quantities. Xfp and Yfp
+	are in cm.}
+\label{fig:inelastic}
+\end{figure}
+
+\begin{figure}	
+	\begin{center}
+		\includegraphics[angle=90]{shms_pointtarg_13p5deg_2gev_wc_mscat_vac_sieve_car44_44.pdf}
+	\end{center}
+	\caption{Elastic carbon 4.4 state events in focal plane for different combinations of quantities. Xfp and Yfp
+	are in cm.}
+	\label{fig:elastic44}
+\end{figure}
+
+\begin{figure}	
+	\begin{center}
+		\includegraphics[width=0.98\columnwidth]{shms_pointtarg_13p5deg_2gev_wc_mscat_vac_sieve_car44_xfp.pdf}
+	\end{center}
+	\caption{Comparison between distribution of inelastic events (red) and elastic 4.4~MeV events (black)
+		 in narrow part of xfp. Y-axis is rate for 20uA.  }
+	\label{fig:xfp}
+\end{figure}
+
+
+\section{Surveys}
+
+The surveys for the SHMS are given in the Table.  Pointing is given in the spectrometer 
+coordinate system with +X downwards and +Y towards smaller angles.
+	\begin{table}[h]
+		\begin{center}
+			\begin{tabular}[]{|c|c||c|c|} \hline\hline
+				Survey & Angle  & Horizontal point (Y$_{spec}$) & Vertical point (X$_{spec}$)\\ \hline
+		C1796R & 20.32 & -0.57& -0.27\\ \hline
+		C1806R & 15.02 & -0.38 & -1.16 \\ \hline
+		C1808R & 24.99  & -0.43 & -1.28 \\ \hline
+		C1810R & 39.94  & -0.43 & -1.25 \\ \hline
+		C1812  & 15.01  & -0.74 & -1.34 \\ \hline
+					\end{tabular}
+			\caption{Surveys of the SHMS}
+		\end{center}
+	\end{table}
+	
+	\section{First order optics}
+	SHMS first order forward optics:
+\begin{eqnarray}
+xfp (mm) &=& -1.38*xtar (mm) - 0.004*xptar (mr) +16.5*delta \\
+xpfp (mr) &=& -.602*xtar (mm) - .72*xptar (mr) - 0.3*delta \\
+yfp (mm) &=& -1.6*ytar (mr) - 0.003*yptar (mr) - 1.5*delta \\
+ypfp (mr) &=& -2.68*ytar (mm) - 0.61*yptar (mr) +0.0074*delta 
+\end{eqnarray}
+	
+	SHMS first order reconstruction optics.
+\begin{eqnarray}
+xptar (mr) &=& 0.26 xfp (mm) - 1.38 xpfp (mr) \\
+delta   &=& 0.06 xfp  (mm)  - 0.0012 xpfp (mr)\\
+ytar  (mm) &=& -.61 yfp (mm) - 0.04ypfp (mr)\\
+yptar  (mr)&=& 0.27 yfp (mm) - 1.6 ypfp (mr)
+\end{eqnarray}
+
+\end{document}
